@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Завдання JS</title>
+  <style>
+    .even { color: green; font-weight: bold; }
+    .odd { color: red; font-weight: bold; }
+    #passwordBox {
+      border: 1px solid black;
+      padding: 10px;
+      margin: 10px 0;
+      background: #f0f0f0;
+      width: fit-content;
+    }
+    .student-name {
+      margin: 5px 0;
+      padding: 5px;
+      background: #e1f5fe;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+<h2>Завдання на JavaScript</h2>
+<div id="task1"></div>
+<div id="passwordBox"></div>
+<div id="marksResult"></div>
+<div id="studentsList"></div>
+<script>
+  const number = 12; 
+  const name = "Oleg";
+  function checkEvenOdd(num) {
+    const div = document.getElementById("task1");
+    if (num % 2 === 0) {
+      div.innerHTML = `<p class="even">Число ${num} є парним</p>`;
+    } else {
+      div.innerHTML = `<p class="odd">Число ${num} є непарним</p>`;
+    }
+  }
+  function generatePassword(name, num) {
+    const password = name.substring(0, 3) + (num * 2);
+    document.getElementById("passwordBox").innerHTML = `<b>Ваш пароль:</b> ${password}`;
+  }
+  function averageMarks(id) {
+    let grades = [];
+    for (let i = 1; i <= 3; i++) {
+      grades.push(Number(prompt(`Введіть оцінку ${i}:`)));
+    }
+    const avg = (grades[0] + grades[1] + grades[2]) / 3;
+    const div = document.createElement("div");
+    div.id = id;
+    div.innerHTML = `<b>Середня оцінка:</b> ${avg.toFixed(2)}`;
+    document.getElementById("marksResult").appendChild(div);
+  }
+  function askStudents() {
+    const count = Number(prompt("Введіть кількість студентів у групі:"));
+    const listDiv = document.getElementById("studentsList");
+    listDiv.innerHTML = "<h3>Список студентів:</h3>";
+    for (let i = 1; i <= count; i++) {
+      const name = prompt(`Введіть ПІБ студента №${i}:`);
+      const p = document.createElement("p");
+      p.className = "student-name";
+      p.textContent = `${i}. ${name}`;
+      listDiv.appendChild(p);
+    }
+  }
+  checkEvenOdd(number);
+  generatePassword(name, number);
+  averageMarks(number);
+  askStudents();
+</script>
+</body>
+</html>
