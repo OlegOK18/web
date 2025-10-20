@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Колекції JavaScript</title>
+</head>
+<body>
+    <h1>Управління колекціями</h1>
+
+    <!-- Книги -->
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px;">
+        <h2>Бібліотека книг</h2>
+        <button onclick="showAllBooks()">Всі книги</button>
+        <button onclick="showUnreadBooks()">Непрочитані</button>
+        <button onclick="markRandomAsRead()">Позначити випадкову як прочитану</button>
+        <button onclick="showAverageYear()">Середній рік видання</button>
+        <div id="booksResult"></div>
+    </div>
+
+    <!-- Автомобілі -->
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px;">
+        <h2>Колекція автомобілів</h2>
+        <button onclick="showAllCars()">Всі автомобілі</button>
+        <button onclick="showActiveCars()">Активні</button>
+        <button onclick="showCarsByEngine('бензин')">Бензинові</button>
+        <button onclick="showCarsByEngine('дизель')">Дизельні</button>
+        <button onclick="showCarsByEngine('електро')">Електро</button>
+        <button onclick="toggleRandomCar()">Змінити статус</button>
+        <div id="carsResult"></div>
+    </div>
+
+    <script>
+        // ===== КНИГИ =====
+        const books = [
+            { 
+                title: "Війна і мир", 
+                author: "Лев Толстой", 
+                year: 1869, 
+                rating: 4.8, 
+                isRead: true,
+                markAsRead: function() { 
+                    this.isRead = true; 
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            },
+            { 
+                title: "1984", 
+                author: "Джордж Орвелл", 
+                year: 1949, 
+                rating: 4.5, 
+                isRead: false,
+                markAsRead: function() { 
+                    this.isRead = true; 
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            },
+            { 
+                title: "Злочин і кара", 
+                author: "Федір Достоєвський", 
+                year: 1866, 
+                rating: 4.7, 
+                isRead: true,
+                markAsRead: function() { 
+                    this.isRead = true; 
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            },
+            { 
+                title: "Гаррі Поттер", 
+                author: "Джоан Роулінг", 
+                year: 1997, 
+                rating: 4.9, 
+                isRead: false,
+                markAsRead: function() { 
+                    this.isRead = true; 
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            }
+        ];
+
+        function showAllBooks() {
+            const result = books;
+            document.getElementById('booksResult').innerHTML = 
+                `<h3>Всі книги:</h3><pre>${JSON.stringify(result, null, 2)}</pre>`;
+        }
+
+        function showUnreadBooks() {
+            const result = books.filter(book => !book.isRead);
+            document.getElementById('booksResult').innerHTML = 
+                `<h3>Непрочитані книги:</h3><pre>${JSON.stringify(result, null, 2)}</pre>`;
+        }
+
+        function markRandomAsRead() {
+            const unreadBooks = books.filter(book => !book.isRead);
+            if (unreadBooks.length > 0) {
+                const randomBook = unreadBooks[Math.floor(Math.random() * unreadBooks.length)];
+                const message = randomBook.markAsRead();
+                document.getElementById('booksResult').innerHTML = 
+                    `<h3>${message}</h3>`;
+            } else {
+                document.getElementById('booksResult').innerHTML = 
+                    `<h3>Всі книги вже прочитані!</h3>`;
+            }
+        }
+
+        function calculateAverageYear() {
+            const totalYears = books.reduce((sum, book) => sum + book.year, 0);
+            return Math.round(totalYears / books.length);
+        }
+
+        function showAverageYear() {
+            const average = calculateAverageYear();
+            document.getElementById('booksResult').innerHTML = 
+                `<h3>Середній рік видання: ${average}</h3>`;
+        }
+
+        // ===== АВТОМОБІЛІ =====
+        const cars = [
+            { 
+                brand: "Toyota", 
+                model: "Camry", 
+                year: 2020, 
+                engine: "бензин", 
+                isActive: true 
+            },
+            { 
+                brand: "BMW", 
+                model: "X5", 
+                year: 2019, 
+                engine: "дизель", 
+                isActive: false 
+            },
+            { 
+                brand: "Tesla", 
+                model: "Model 3", 
+                year: 2022, 
+                engine: "електро", 
+                isActive: true 
+            },
+            { 
+                brand: "Honda", 
+                model: "Civic", 
+                year: 2021, 
+                engine: "бензин", 
+                isActive: true 
+            },
+            { 
+                brand: "Audi", 
+                model: "A4", 
+                year: 2018, 
+                engine: "дизель", 
+                isActive: false 
+            }
+        ];
+
+        function showAllCars() {
+            document.getElementById('carsResult').innerHTML = 
+                `<h3>Вся колекція:</h3><pre>${JSON.stringify(cars, null, 2)}</pre>`;
+        }
+
+        function showActiveCars() {
+            const activeCars = cars.filter(car => car.isActive);
+            document.getElementById('carsResult').innerHTML = 
+                `<h3>Активні автомобілі:</h3><pre>${JSON.stringify(activeCars, null, 2)}</pre>`;
+        }
+
+        function showCarsByEngine(engineType) {
+            const filteredCars = cars.filter(car => car.engine === engineType);
+            document.getElementById('carsResult').innerHTML = 
+                `<h3>Автомобілі з двигуном ${engineType}:</h3><pre>${JSON.stringify(filteredCars, null, 2)}</pre>`;
+        }
+
+        function toggleRandomCar() {
+            const randomIndex = Math.floor(Math.random() * cars.length);
+            cars[randomIndex].isActive = !cars[randomIndex].isActive;
+            const car = cars[randomIndex];
+            const status = car.isActive ? 'активний' : 'неактивний';
+            document.getElementById('carsResult').innerHTML = 
+                `<h3>Статус ${car.brand} ${car.model} змінено на: ${status}</h3>`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лабораторна 2 - Рівень 2</title>
+</head>
+<body>
+    <h1>Лабораторна робота №2 - Рівень 7-9 балів</h1>
+    
+    <div>
+        <h3>Завдання 1: Глобальна та локальна змінна</h3>
+        <button onclick="task1()">Виконати завдання 1</button>
+        <p id="result1"></p>
+    </div>
+
+    <div>
+        <h3>Завдання 2: Привітання з підтвердженням</h3>
+        <button onclick="task2()">Виконати завдання 2</button>
+        <p id="result2"></p>
+    </div>
+
+    <div>
+        <h3>Завдання 3: Перевірка парності числа</h3>
+        <button onclick="task3()">Виконати завдання 3</button>
+        <p id="result3"></p>
+    </div>
+
+    <script>
+        // Завдання 1
+        function task1() {
+            var userName = "Андрій"; // глобальна змінна
+            
+            if (true) {
+                let userName = prompt("Введіть нове ім'я:"); // локальна змінна
+                console.log("Локальна змінна всередині блоку: " + userName);
+            }
+            
+            console.log("Глобальна змінна: " + userName);
+            document.getElementById('result1').innerHTML = 
+                "Перевірте консоль браузера (F12). Глобальна змінна: " + userName;
+        }
+
+        // Завдання 2
+        function task2() {
+            var name = prompt("Введіть ваше ім'я:");
+            var age = prompt("Введіть ваш вік:");
+            
+            if (name && age) {
+                var message = "Hello, " + name + "! Your age is " + age + ". Continue?";
+                var confirmResult = confirm(message);
+                
+                if (confirmResult) {
+                    alert("Welcome!");
+                    document.getElementById('result2').innerHTML = "Користувач обрав: Welcome!";
+                } else {
+                    alert("Goodbye!");
+                    document.getElementById('result2').innerHTML = "Користувач обрав: Goodbye!";
+                }
+            }
+        }
+
+        // Завдання 3
+        function task3() {
+            var number = prompt("Введіть число:");
+            
+            if (number && !isNaN(number)) {
+                if (number % 2 === 0) {
+                    alert("Number is even");
+                    document.getElementById('result3').innerHTML = "Число " + number + " - парне";
+                } else {
+                    alert("Number is odd");
+                    document.getElementById('result3').innerHTML = "Число " + number + " - непарне";
+                }
+            } else {
+                document.getElementById('result3').innerHTML = "Введено некоректне число";
+            }
+        }
+    </script>
+</body>
+</html>

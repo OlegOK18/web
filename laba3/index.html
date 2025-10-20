@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна 3 - 7-9 балів</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .task {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f4fc;
+            border-radius: 6px;
+            border: 1px solid #bbdefb;
+        }
+        .counter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Лабораторна робота №2 - Просунутий рівень</h1>
+        
+        <!-- Завдання 1 -->
+        <div class="task">
+            <h3>⏰ Завдання 1: Таймер з колбеком</h3>
+            <p>Функція виводить повідомлення через заданий час і викликає колбек</p>
+            <button onclick="demoTask1()">Запустити таймер (3 секунди)</button>
+            <button onclick="demoTask1Custom()">Свій час</button>
+            <div class="result" id="result1">Тут буде результат...</div>
+        </div>
+
+        <!-- Завдання 2 -->
+        <div class="task">
+            <h3>🧮 Завдання 2: Калькулятор</h3>
+            <p>Функція приймає два числа та операцію, повертає результат</p>
+            <button onclick="showResult()">Запустити калькулятор</button>
+            <div class="result" id="result2">Тут буде результат...</div>
+        </div>
+
+        <!-- Завдання 3 -->
+        <div class="task">
+            <h3>🔢 Завдання 3: Лічильник кліків</h3>
+            <p>Функція створює лічильник з використанням замикання</p>
+            <button onclick="initCounter()">Створити лічильник</button>
+            <div class="counter-buttons" id="counterButtons" style="display: none;">
+                <button onclick="clickCounter()">Клікнути (+1)</button>
+                <button onclick="resetCounter()">Скинути</button>
+            </div>
+            <div class="result" id="result3">Тут буде результат...</div>
+        </div>
+    </div>
+
+    <script>
+        // Завдання 1: Таймер з колбеком
+        function startGreetingTimer(message, seconds, callback) {
+            setTimeout(() => {
+                document.getElementById('result1').innerHTML = 
+                    `<strong>Повідомлення:</strong> ${message}`;
+                callback();
+            }, seconds * 1000);
+        }
+
+        function demoTask1() {
+            document.getElementById('result1').innerHTML = 
+                'Таймер запущено на 3 секунди...';
+            startGreetingTimer(
+                'Привіт! Це повідомлення з таймера!', 
+                3, 
+                () => alert('Time is up!')
+            );
+        }
+
+        function demoTask1Custom() {
+            const seconds = prompt('Введіть кількість секунд:', '5');
+            if (seconds && !isNaN(seconds)) {
+                document.getElementById('result1').innerHTML = 
+                    `Таймер запущено на ${seconds} секунд...`;
+                startGreetingTimer(
+                    'Ваше кастомне повідомлення!', 
+                    parseInt(seconds), 
+                    () => alert('Time is up!')
+                );
+            }
+        }
+
+        // Завдання 2: Калькулятор
+        function calculate(a, b, operation) {
+            switch(operation) {
+                case '+':
+                    return a + b;
+                case '-':
+                    return a - b;
+                case '*':
+                    return a * b;
+                case '/':
+                    if (b === 0) return 'Помилка: ділення на нуль!';
+                    return a / b;
+                default:
+                    return 'Invalid operation';
+            }
+        }
+
+        function showResult() {
+            const a = parseFloat(prompt('Введіть перше число:'));
+            const b = parseFloat(prompt('Введіть друге число:'));
+            const operation = prompt('Введіть операцію (+, -, *, /):');
+            
+            if (!isNaN(a) && !isNaN(b) && operation) {
+                const result = calculate(a, b, operation);
+                const message = `${a} ${operation} ${b} = ${result}`;
+                alert(message);
+                document.getElementById('result2').innerHTML = 
+                    `<strong>Результат:</strong> ${message}`;
+            } else {
+                document.getElementById('result2').innerHTML = 
+                    '<strong>Помилка:</strong> Неправильні вхідні дані';
+            }
+        }
+
+        // Завдання 3: Лічильник з замиканням
+        let clickCounterFunction;
+
+        function createClickCounter() {
+            let count = 0;
+            
+            return function() {
+                count++;
+                console.log(`Лічильник: ${count}`);
+                return count;
+            };
+        }
+
+        function initCounter() {
+            clickCounterFunction = createClickCounter();
+            document.getElementById('counterButtons').style.display = 'flex';
+            document.getElementById('result3').innerHTML = 
+                '<strong>Лічильник створено!</strong> Натискайте кнопку "Клікнути"';
+        }
+
+        function clickCounter() {
+            if (clickCounterFunction) {
+                const count = clickCounterFunction();
+                document.getElementById('result3').innerHTML = 
+                    `<strong>Поточний рахунок:</strong> ${count}`;
+            }
+        }
+
+        function resetCounter() {
+            clickCounterFunction = createClickCounter();
+            document.getElementById('result3').innerHTML = 
+                '<strong>Лічильник скинуто!</strong> Поточний рахунок: 0';
+        }
+    </script>
+</body>
+</html>
